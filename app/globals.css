@@ -1,0 +1,174 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-geist-sans), 'Geist Fallback';
+  --font-mono: var(--font-geist-mono), 'Geist Mono Fallback';
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-blue: var(--neon-blue);
+  --color-neon-purple: var(--neon-purple);
+  --color-gold: var(--gold);
+  --color-silver: var(--silver);
+  --color-bronze: var(--bronze);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+}
+
+:root {
+  color-scheme: dark;
+  /* Code Challenge Arena theme */
+
+  /* Base surfaces */
+  --background: oklch(0.16 0.04 264);
+  --foreground: oklch(0.96 0.01 264);
+
+  --card: oklch(0.21 0.05 264);
+  --card-foreground: oklch(0.96 0.01 264);
+  --popover: oklch(0.19 0.05 264);
+  --popover-foreground: oklch(0.96 0.01 264);
+
+  /* Neon cyan as primary accent */
+  --primary: oklch(0.82 0.15 200);
+  --primary-foreground: oklch(0.16 0.04 264);
+
+  --secondary: oklch(0.55 0.2 280);
+  --secondary-foreground: oklch(0.98 0.01 264);
+
+  --muted: oklch(0.26 0.04 264);
+  --muted-foreground: oklch(0.72 0.03 264);
+
+  --accent: oklch(0.6 0.2 270);
+  --accent-foreground: oklch(0.98 0.01 264);
+
+  --destructive: oklch(0.62 0.24 25);
+
+  --border: oklch(0.78 0.12 220 / 14%);
+  --input: oklch(0.78 0.12 220 / 18%);
+  --ring: oklch(0.82 0.15 200);
+
+  --radius: 0.9rem;
+
+  /* Custom brand tokens */
+  --neon-cyan: oklch(0.85 0.15 195);
+  --neon-blue: oklch(0.65 0.2 255);
+  --neon-purple: oklch(0.6 0.22 295);
+  --gold: oklch(0.84 0.16 90);
+  --silver: oklch(0.85 0.02 264);
+  --bronze: oklch(0.68 0.12 55);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: color-mix(in oklch, var(--card) 70%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid color-mix(in oklch, var(--neon-cyan) 22%, transparent);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--neon-cyan) 30%, transparent),
+      0 8px 40px -8px color-mix(in oklch, var(--neon-cyan) 45%, transparent);
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      100deg,
+      var(--neon-cyan),
+      var(--neon-blue) 45%,
+      var(--neon-purple)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-grid {
+    background-image: linear-gradient(
+        color-mix(in oklch, var(--neon-cyan) 8%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in oklch, var(--neon-cyan) 8%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 44px 44px;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-18px) translateX(8px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes scroll-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 9s ease-in-out infinite;
+}
+.animate-pulse-glow {
+  animation: pulse-glow 5s ease-in-out infinite;
+}
