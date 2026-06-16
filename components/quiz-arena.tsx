@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { Timer, Trophy, Check, X, RotateCcw, ChevronRight, Flame, Zap, Star, Skull } from "lucide-react"
 import { SectionHeading } from "./languages-section"
 import NicknameScreen from "./nick-form"
+import { postUser } from "@/app/services/post-user-service"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -25,31 +26,31 @@ const MIN_POINTS = 10
 
 
 const DIFFICULTY_PICKS: Record<Difficulty, number> = {
-  easy:   3,
+  easy: 3,
   medium: 3,
-  hard:   3,
-  boss:   1,
+  hard: 3,
+  boss: 1,
 }
 
 const DIFFICULTY_LABEL: Record<Difficulty, string> = {
-  easy:   "Easy",
+  easy: "Easy",
   medium: "Medium",
-  hard:   "Hard",
-  boss:   "Final Boss",
+  hard: "Hard",
+  boss: "Final Boss",
 }
 
 const DIFFICULTY_COLORS: Record<Difficulty, string> = {
-  easy:   "text-emerald-400 border-emerald-400/40 bg-emerald-400/10",
+  easy: "text-emerald-400 border-emerald-400/40 bg-emerald-400/10",
   medium: "text-amber-400  border-amber-400/40  bg-amber-400/10",
-  hard:   "text-orange-500 border-orange-500/40 bg-orange-500/10",
-  boss:   "text-red-500    border-red-500/40    bg-red-500/10",
+  hard: "text-orange-500 border-orange-500/40 bg-orange-500/10",
+  boss: "text-red-500    border-red-500/40    bg-red-500/10",
 }
 
 const DIFFICULTY_ICON: Record<Difficulty, React.ReactNode> = {
-  easy:   <Star   className="h-3 w-3" />,
-  medium: <Flame  className="h-3 w-3" />,
-  hard:   <Zap    className="h-3 w-3" />,
-  boss:   <Skull  className="h-3 w-3" />,
+  easy: <Star className="h-3 w-3" />,
+  medium: <Flame className="h-3 w-3" />,
+  hard: <Zap className="h-3 w-3" />,
+  boss: <Skull className="h-3 w-3" />,
 }
 
 // ─── Question Pool (50+ questions) ───────────────────────────────────────────
@@ -649,7 +650,7 @@ function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
+      ;[a[i], a[j]] = [a[j], a[i]]
   }
   return a
 }
@@ -693,7 +694,6 @@ function ResultScreen({
   const pct = Math.round((score / maxScore) * 100)
   const message =
     pct >= 80 ? "Legendary! 🏆" : pct >= 50 ? "Great job! 🎉" : "Keep practicing! 💪"
-    console.log("finao")
 
   return (
     <div className="py-8 text-center">
@@ -740,10 +740,10 @@ function getOptionState(params: {
 }
 
 const OPTION_STYLES: Record<OptionState, string> = {
-  idle:     "border-border bg-background/50 hover:border-primary/60 hover:bg-primary/10 text-foreground cursor-pointer",
-  correct:  "border-primary bg-primary/20 text-foreground",
-  wrong:    "border-destructive bg-destructive/20 text-foreground",
-  missed:   "border-amber-400 bg-amber-400/15 text-foreground",
+  idle: "border-border bg-background/50 hover:border-primary/60 hover:bg-primary/10 text-foreground cursor-pointer",
+  correct: "border-primary bg-primary/20 text-foreground",
+  wrong: "border-destructive bg-destructive/20 text-foreground",
+  missed: "border-amber-400 bg-amber-400/15 text-foreground",
   disabled: "border-border bg-background/30 text-muted-foreground",
 }
 
@@ -767,8 +767,10 @@ export function QuizArena() {
   const answered = selected !== null || timedOut
   const progress = (index / questions.length) * 100
 
+  // ── FIX: postUser is called here, once, as an imperative event ──
   const goNext = useCallback(() => {
     if (index + 1 >= questions.length) {
+      postUser({ nick: nickname, points: score })
       setFinished(true)
     } else {
       setIndex((i) => i + 1)
@@ -776,7 +778,7 @@ export function QuizArena() {
       setTimedOut(false)
       setTimeLeft(TIME_PER_QUESTION)
     }
-  }, [index, questions.length])
+  }, [index, questions.length, nickname, score])
 
   const handleSelect = useCallback(
     (option: number) => {
@@ -869,9 +871,8 @@ export function QuizArena() {
                       {score}
                     </span>
                     <span
-                      className={`flex items-center gap-1.5 font-mono text-sm transition-colors ${
-                        timeLeft <= 5 ? "text-destructive" : "text-foreground"
-                      }`}
+                      className={`flex items-center gap-1.5 font-mono text-sm transition-colors ${timeLeft <= 5 ? "text-destructive" : "text-foreground"
+                        }`}
                     >
                       <Timer className="h-4 w-4" />
                       {timeLeft}s
@@ -936,8 +937,8 @@ export function QuizArena() {
                           {option}
                         </span>
                         {state === "correct" && <Check className="h-5 w-5 shrink-0 text-primary" />}
-                        {state === "missed"  && <Check className="h-5 w-5 shrink-0 text-amber-400" />}
-                        {state === "wrong"   && <X     className="h-5 w-5 shrink-0 text-destructive" />}
+                        {state === "missed" && <Check className="h-5 w-5 shrink-0 text-amber-400" />}
+                        {state === "wrong" && <X className="h-5 w-5 shrink-0 text-destructive" />}
                       </button>
                     )
                   })}
