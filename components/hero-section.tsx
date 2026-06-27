@@ -23,7 +23,7 @@ export function HeroSection() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden px-4 pb-24 pt-44 sm:pt-44"
+      className="relative overflow-hidden px-4 pb-16 pt-28 sm:pb-24 sm:pt-36 lg:pt-44"
     >
       {/* Background layers */}
       <div className="pointer-events-none absolute inset-0 bg-grid" aria-hidden />
@@ -52,52 +52,52 @@ export function HeroSection() {
         </span>
       ))}
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 sm:gap-12 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-medium text-primary">
             <Sparkles className="h-3.5 w-3.5" />
             Learn by playing • English + Code
           </span>
 
-          <h1 className="mt-6 text-pretty font-mono text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+          <h1 className="mt-6 text-pretty font-mono text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             <span className="text-gradient">Code Challenge</span>
             <br />
             <span className="text-foreground">Arena</span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
             Learn English, programming languages, and algorithms through interactive challenges. Level up, earn badges, and compete for the top of the leaderboard.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a
+          <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+            
               href="#quiz"
-              className="group inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105 glow-cyan"
-            >
+              className="group inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105 glow-cyan sm:px-6 sm:py-3.5"
+            <a>
               <Play className="h-4 w-4 fill-current" />
               Start Challenge
             </a>
 
-            <a
+            
               href="#languages"
-              className="group inline-flex items-center gap-2 rounded-xl glass px-6 py-3.5 text-sm font-semibold text-foreground transition-colors hover:text-primary"
-            >
+              className="group inline-flex items-center gap-2 rounded-xl glass px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:text-primary sm:px-6 sm:py-3.5"
+            <a>
               <Code2 className="h-4 w-4" />
               Explore Languages
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
           </div>
 
-          <dl className="mt-12 grid max-w-md grid-cols-3 gap-4">
+          <dl className="mt-10 grid max-w-md grid-cols-3 gap-3 sm:mt-12 sm:gap-4">
             {[
               { v: "5+", l: "Linguagens" },
               { v: "120+", l: "Desafios" },
               { v: "30+", l: "Conquistas" },
             ].map((s) => (
-              <div key={s.l} className="rounded-xl glass px-4 py-3 text-center">
-                <dt className="font-mono text-2xl font-bold text-primary">
+              <div key={s.l} className="rounded-xl glass px-2 py-3 text-center sm:px-4">
+                <dt className="font-mono text-xl font-bold text-primary sm:text-2xl">
                   {s.v}
                 </dt>
-                <dd className="mt-1 text-xs text-muted-foreground">{s.l}</dd>
+                <dd className="mt-1 text-[11px] text-muted-foreground sm:text-xs">{s.l}</dd>
               </div>
             ))}
           </dl>
@@ -117,17 +117,17 @@ export function HeroSection() {
                     arena.ts
                   </span>
                 </div>
-                <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-relaxed">
+                <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed sm:p-5 sm:text-[13px]">
                   <code>
                     {codeLines.map((line, i) => (
-                      <div key={i} className="flex gap-4">
+                      <div key={i} className="flex gap-3 sm:gap-4">
                         <span className="select-none text-muted-foreground/50">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <span className="text-foreground/90">{line}</span>
+                        <span className="whitespace-pre text-foreground/90">{line}</span>
                       </div>
                     ))}
-                    <div className="mt-2 flex gap-4">
+                    <div className="mt-2 flex gap-3 sm:gap-4">
                       <span className="select-none text-muted-foreground/50">
                         08
                       </span>
@@ -153,11 +153,11 @@ export function HeroSection() {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-5 p-5">
-                  <div className="rounded-xl bg-white p-2.5">
+                <div className="flex flex-col items-center gap-4 p-4 text-center sm:flex-row sm:gap-5 sm:p-5 sm:text-left">
+                  <div className="shrink-0 rounded-xl bg-white p-2.5">
                     <QRCodeSVG
                       value={QUIZ_URL}
-                      size={104}
+                      size={96}
                       bgColor="#ffffff"
                       fgColor="#0a0a0f"
                       level="M"
@@ -169,7 +169,7 @@ export function HeroSection() {
                       <Smartphone className="h-3.5 w-3.5" />
                       Play on your phone
                     </span>
-                    <p className="mt-2 max-w-[14rem] text-sm leading-relaxed text-muted-foreground">
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:max-w-[14rem]">
                       Scan to open the Arena and join the challenge from your own device.
                     </p>
                   </div>
