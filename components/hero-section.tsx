@@ -5,7 +5,7 @@ import { QRCodeSVG } from "qrcode.react"
 
 // 🆕 Troque esta variável pelo link real assim que o front estiver no ar.
 // Ex: "https://quiz-arena.vercel.app"
-const QUIZ_URL = "https://SEU-LINK-AQUI.vercel.app"
+const QUIZ_URL = " https://quiz-arena-wheat.vercel.app/"
 
 const codeLines = [
   "function levelUp(player) {",
@@ -23,7 +23,7 @@ export function HeroSection() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden px-4 pb-16 pt-28 sm:pb-24 sm:pt-36 lg:pt-44"
+      className="relative overflow-x-hidden overflow-y-visible px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-36 lg:px-8 lg:pt-44"
     >
       {/* Background layers */}
       <div className="pointer-events-none absolute inset-0 bg-grid" aria-hidden />
@@ -66,21 +66,23 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Learn English, programming languages, and algorithms through interactive challenges. Level up, earn badges, and compete for the top of the leaderboard.
+            Learn English, programming languages, and algorithms through interactive challenges.
+            Level up, earn badges, and compete for the top of the leaderboard.
           </p>
+
           <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
-            
+            <a
               href="#quiz"
               className="group inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105 glow-cyan sm:px-6 sm:py-3.5"
-            <a>
+            >
               <Play className="h-4 w-4 fill-current" />
               Start Challenge
             </a>
 
-            
+            <a
               href="#languages"
               className="group inline-flex items-center gap-2 rounded-xl glass px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:text-primary sm:px-6 sm:py-3.5"
-            <a>
+            >
               <Code2 className="h-4 w-4" />
               Explore Languages
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -97,18 +99,21 @@ export function HeroSection() {
                 <dt className="font-mono text-xl font-bold text-primary sm:text-2xl">
                   {s.v}
                 </dt>
-                <dd className="mt-1 text-[11px] text-muted-foreground sm:text-xs">{s.l}</dd>
+                <dd className="mt-1 text-[11px] text-muted-foreground sm:text-xs">
+                  {s.l}
+                </dd>
               </div>
             ))}
           </dl>
         </div>
 
         {/* Animated code window + QR code */}
-        <div className="relative flex flex-col gap-5">
-          <div className="relative">
+        <div className="relative flex w-full min-w-0 flex-col gap-5 lg:pr-1">
+          <div className="relative min-w-0">
             <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-neon-cyan/20 via-neon-blue/10 to-neon-purple/20 blur-2xl" />
-            <div className="relative rounded-2xl glass p-1 glow-cyan">
-              <div className="rounded-xl bg-background/80">
+
+            <div className="relative min-w-0 rounded-2xl glass p-1 glow-cyan">
+              <div className="min-w-0 rounded-xl bg-background/80">
                 <div className="flex items-center gap-2 border-b border-border px-4 py-3">
                   <span className="h-3 w-3 rounded-full bg-destructive/80" />
                   <span className="h-3 w-3 rounded-full bg-gold/80" />
@@ -117,6 +122,7 @@ export function HeroSection() {
                     arena.ts
                   </span>
                 </div>
+
                 <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed sm:p-5 sm:text-[13px]">
                   <code>
                     {codeLines.map((line, i) => (
@@ -124,9 +130,12 @@ export function HeroSection() {
                         <span className="select-none text-muted-foreground/50">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <span className="whitespace-pre text-foreground/90">{line}</span>
+                        <span className="whitespace-pre text-foreground/90">
+                          {line}
+                        </span>
                       </div>
                     ))}
+
                     <div className="mt-2 flex gap-3 sm:gap-4">
                       <span className="select-none text-muted-foreground/50">
                         08
@@ -139,11 +148,12 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* 🆕 QR code window — mesmo estilo de "janela" do code window acima */}
-          <div className="relative">
+          {/* QR code */}
+          <div className="relative min-w-0">
             <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-neon-purple/15 via-neon-blue/10 to-neon-cyan/15 blur-2xl" />
-            <div className="relative rounded-2xl glass p-1 glow-cyan">
-              <div className="rounded-xl bg-background/80">
+
+            <div className="relative min-w-0 rounded-2xl glass p-1 glow-cyan">
+              <div className="min-w-0 rounded-xl bg-background/80">
                 <div className="flex items-center gap-2 border-b border-border px-4 py-3">
                   <span className="h-3 w-3 rounded-full bg-destructive/80" />
                   <span className="h-3 w-3 rounded-full bg-gold/80" />
@@ -169,8 +179,10 @@ export function HeroSection() {
                       <Smartphone className="h-3.5 w-3.5" />
                       Play on your phone
                     </span>
+
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:max-w-[14rem]">
-                      Scan to open the Arena and join the challenge from your own device.
+                      Scan to open the Arena and join the challenge from your own
+                      device.
                     </p>
                   </div>
                 </div>
