@@ -2,7 +2,7 @@ import { Terminal, GraduationCap, Globe, Cpu } from "lucide-react"
 
 export function SiteFooter() {
   return (
-    <footer className="relative border-t border-border px-4 py-14">
+    <footer id="footer" className="relative border-t border-border px-4 py-14">
       <div className="pointer-events-none absolute inset-0 bg-grid opacity-40" aria-hidden />
       <div className="relative mx-auto max-w-6xl">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">

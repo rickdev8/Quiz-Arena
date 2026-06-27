@@ -24,7 +24,6 @@ const TIME_PER_QUESTION = 15
 const POINTS_PER_SECOND = 10
 const MIN_POINTS = 10
 
-
 const DIFFICULTY_PICKS: Record<Difficulty, number> = {
   easy: 3,
   medium: 3,
@@ -724,6 +723,10 @@ function ResultScreen({
 
 type OptionState = "idle" | "correct" | "wrong" | "missed" | "disabled"
 
+type UpdateListProps = {
+  updateList: () => void
+}
+
 function getOptionState(params: {
   index: number
   answer: number
@@ -749,7 +752,7 @@ const OPTION_STYLES: Record<OptionState, string> = {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function QuizArena() {
+export function QuizArena({ updateList }: UpdateListProps) {
   const [started, setStarted] = useState(false)
   const [nickname, setNickname] = useState("")
   const [index, setIndex] = useState(0)
@@ -759,33 +762,67 @@ export function QuizArena() {
   const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION)
   const [finished, setFinished] = useState(false)
 
-  // Pick 10 questions on each new game
+  // 🆕 streak tracking (para a badge "Hot Streak")
+  const [streak, setStreak] = useState(0)
+  const [bestStreak, setBestStreak] = useState(0)
+
+  // 🆕 timestamp de início do quiz (para a badge "Speed Demon")
+  const [quizStartedAt, setQuizStartedAt] = useState<number | null>(null)
+
   const [pickKey, setPickKey] = useState(0)
-  const questions = useMemo(() => pickQuestions(), [pickKey]) // eslint-disable-line react-hooks/exhaustive-deps
+  const questions = useMemo(() => pickQuestions(), [pickKey])
 
   const current = questions[index]
   const answered = selected !== null || timedOut
   const progress = (index / questions.length) * 100
 
-  // ── FIX: postUser is called here, once, as an imperative event ──
-  const goNext = useCallback(() => {
+  useEffect(() => {
+    if (finished) {
+      updateList()
+    }
+  }, [finished, updateList])
+
+  const goNext = useCallback(async () => {         
     if (index + 1 >= questions.length) {
-      postUser({ nick: nickname, points: score })
-      setFinished(true)
+      const timeTakenMs = quizStartedAt ? Date.now() - quizStartedAt : null
+  
+      try {
+        await postUser({                           
+          nick: nickname,
+          points: score,
+          bestStreak,
+          timeTakenMs,
+          totalQuestions: questions.length,
+        })
+      } catch (error) {
+        console.error("Erro ao salvar resultado:", error)
+      }
+  
+      setFinished(true)                              
     } else {
       setIndex((i) => i + 1)
       setSelected(null)
       setTimedOut(false)
       setTimeLeft(TIME_PER_QUESTION)
     }
-  }, [index, questions.length, nickname, score])
+  }, [index, questions.length, nickname, score, bestStreak, quizStartedAt])
 
   const handleSelect = useCallback(
     (option: number) => {
       if (answered) return
       setSelected(option)
+
       if (option === current.answer) {
         setScore((s) => s + Math.max(MIN_POINTS, timeLeft * POINTS_PER_SECOND))
+        // 🆕 incrementa streak e atualiza o melhor streak
+        setStreak((s) => {
+          const next = s + 1
+          setBestStreak((b) => Math.max(b, next))
+          return next
+        })
+      } else {
+        // 🆕 erro quebra o streak
+        setStreak(0)
       }
     },
     [answered, current, timeLeft],
@@ -796,6 +833,7 @@ export function QuizArena() {
     if (!started || finished || answered) return
     if (timeLeft <= 0) {
       setTimedOut(true)
+      setStreak(0) // 🆕 timeout também quebra o streak
       return
     }
     const t = setTimeout(() => setTimeLeft((v) => v - 1), 1000)
@@ -811,6 +849,9 @@ export function QuizArena() {
     setTimeLeft(TIME_PER_QUESTION)
     setFinished(false)
     setNickname("")
+    setStreak(0)
+    setBestStreak(0)
+    setQuizStartedAt(null)
     setPickKey((k) => k + 1)
   }, [])
 
@@ -845,6 +886,7 @@ export function QuizArena() {
                 onStart={(nick) => {
                   setNickname(nick)
                   setStarted(true)
+                  setQuizStartedAt(Date.now()) // 🆕 marca o início
                 }}
               />
             )}

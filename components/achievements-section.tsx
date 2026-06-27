@@ -32,35 +32,35 @@ const achievements: Achievement[] = [
     name: "Hot Streak",
     description: "Answer 5 questions correctly in a row.",
     icon: Flame,
-    unlocked: false,
+    unlocked: true,
     tint: "var(--bronze)",
   },
   {
     name: "Speed Demon",
     description: "Finish a challenge in record time.",
     icon: Zap,
-    unlocked: false,
+    unlocked: true,
     tint: "var(--neon-blue)",
   },
   {
     name: "Brain Power",
     description: "Reach a score of 1,000 points.",
     icon: Brain,
-    unlocked: false,
+    unlocked: true,
     tint: "var(--neon-purple)",
   },
   {
     name: "Top 10",
     description: "Enter the Top 10 players on the leaderboard.",
     icon: Trophy,
-    unlocked: false,
+    unlocked: true,
     tint: "var(--silver)",
   },
   {
     name: "Champion",
     description: "Claim the #1 position on the leaderboard.",
     icon: Crown,
-    unlocked: false,
+    unlocked: true,
     tint: "var(--gold)",
   },
 ];
@@ -78,7 +78,7 @@ export function AchievementsSection() {
         />
 
         <p className="mt-6 text-center font-mono text-sm text-muted-foreground">
-          <span className="text-primary">{unlockedCount}</span> de{" "}
+          <span className="text-primary">{unlockedCount}</span> of{" "}
           {achievements.length} unlocked
         </p>
 
