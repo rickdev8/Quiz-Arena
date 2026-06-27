@@ -3,133 +3,184 @@
 import { ArrowLeftRight, Search, Brain } from "lucide-react"
 import { SectionHeading } from "./languages-section"
 
-function BubbleSortViz() {
-  const bars = [40, 75, 30, 90, 55, 65]
-  return (
-    <div className="flex h-24 items-end justify-center gap-2">
-      {bars.map((h, i) => (
-        <span
-          key={i}
-          className="w-5 rounded-t-md bg-gradient-to-t from-neon-blue to-neon-cyan transition-all"
-          style={{ height: `${h}%` }}
-        />
-      ))}
-    </div>
-  )
-}
+"use client"
 
-function BinarySearchViz() {
-  return (
-    <div className="flex h-24 flex-col items-center justify-center gap-3">
-      <div className="flex gap-1.5">
-        {[1, 3, 5, 7, 9, 11, 13, 15].map((n, i) => (
-          <span
-            key={n}
-            className={`flex h-8 w-8 items-center justify-center rounded-md font-mono text-xs transition-colors ${
-              i === 5
-                ? "bg-primary text-primary-foreground glow-cyan"
-                : i >= 4
-                  ? "bg-primary/15 text-primary"
-                  : "bg-background/50 text-muted-foreground/50"
-            }`}
-          >
-            {n}
-          </span>
-        ))}
-      </div>
-      <span className="font-mono text-xs text-muted-foreground">
-        target = 11 → log₂(n) steps
-      </span>
-    </div>
-  )
-}
+import { Sparkles, Play, Code2, ArrowRight, Smartphone } from "lucide-react"
+import { QRCodeSVG } from "qrcode.react"
 
-function LogicViz() {
-  return (
-    <div className="flex h-24 items-center justify-center gap-3 font-mono text-sm">
-      <span className="rounded-lg bg-background/50 px-3 py-1.5 text-foreground">
-        true
-      </span>
-      <span className="text-primary">&&</span>
-      <span className="rounded-lg bg-background/50 px-3 py-1.5 text-foreground">
-        false
-      </span>
-      <span className="text-muted-foreground">=</span>
-      <span className="rounded-lg bg-destructive/20 px-3 py-1.5 text-destructive">
-        false
-      </span>
-    </div>
-  )
-}
+// 🆕 Troque esta variável pelo link real assim que o front estiver no ar.
+// Ex: "https://quiz-arena.vercel.app"
+const QUIZ_URL = "https://SEU-LINK-AQUI.vercel.app"
 
-const algorithms = [
-  {
-    name: "Bubble Sort",
-    icon: ArrowLeftRight,
-    description:
-      "Watch numbers move into place as adjacent elements are compared and swapped.",
-    complexity: "O(n²)",
-    viz: <BubbleSortViz />,
-  },
-  {
-    name: "Binary Search",
-    icon: Search,
-    description:
-      "Find a target value in seconds by repeatedly splitting a sorted list in half.",
-    complexity: "O(log n)",
-    viz: <BinarySearchViz />,
-  },
-  {
-    name: "Logic Challenges",
-    icon: Brain,
-    description:
-      "Test your problem-solving skills with Boolean logic and decision-making puzzles.",
-    complexity: "Boolean",
-    viz: <LogicViz />,
-  },
-];
+const codeLines = [
+  "function levelUp(player) {",
+  "  player.xp += solveChallenge();",
+  "  if (player.xp > 1000) unlock('badge');",
+  "  return player;",
+  "}",
+  "const arena = new CodeArena();",
+  "arena.start({ mode: 'english+algorithms' });",
+]
 
-export function AlgorithmsSection() {
+const floatingTokens = ["{ }", "</>", "=>", "[ ]", "&&", "404", "0x1F", "fn()"]
+
+export function HeroSection() {
   return (
-    <section id="algorithms" className="relative px-4 py-24">
+    <section
+      id="top"
+      className="relative overflow-x-hidden overflow-y-visible px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-36 lg:px-8 lg:pt-44"
+    >
+      {/* Background layers */}
+      <div className="pointer-events-none absolute inset-0 bg-grid" aria-hidden />
       <div
-        className="pointer-events-none absolute left-1/2 top-0 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-neon-purple/15 blur-[120px]"
+        className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-neon-blue/30 blur-[120px] animate-pulse-glow"
         aria-hidden
       />
-      <div className="relative mx-auto max-w-6xl">
-        <SectionHeading
-          eyebrow="Algorithms"
-          title="See the logic in action."
-          subtitle="Abstract concepts become visual challenges that are easy to understand."
-        />
+      <div
+        className="pointer-events-none absolute -right-20 top-40 h-80 w-80 rounded-full bg-neon-purple/30 blur-[130px] animate-pulse-glow"
+        aria-hidden
+      />
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {algorithms.map((algo) => (
-            <article
-              key={algo.name}
-              className="group rounded-2xl glass p-6 transition-all duration-300 hover:-translate-y-1.5 hover:glow-cyan"
+      {/* Floating code tokens */}
+      {floatingTokens.map((token, i) => (
+        <span
+          key={token}
+          className="pointer-events-none absolute hidden select-none font-mono text-sm text-primary/40 md:block animate-float-slow"
+          style={{
+            left: `${8 + ((i * 12) % 85)}%`,
+            top: `${15 + ((i * 9) % 60)}%`,
+            animationDelay: `${i * 0.6}s`,
+          }}
+          aria-hidden
+        >
+          {token}
+        </span>
+      ))}
+
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 sm:gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-medium text-primary">
+            <Sparkles className="h-3.5 w-3.5" />
+            Learn by playing • English + Code
+          </span>
+
+          <h1 className="mt-6 text-pretty font-mono text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+            <span className="text-gradient">Code Challenge</span>
+            <br />
+            <span className="text-foreground">Arena</span>
+          </h1>
+
+          <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Learn English, programming languages, and algorithms through interactive challenges. Level up, earn badges, and compete for the top of the leaderboard.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+            <a
+              href="#quiz"
+              className="group inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105 glow-cyan sm:px-6 sm:py-3.5"
             >
-              <div className="flex items-center justify-between">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary">
-                  <algo.icon className="h-5 w-5" />
-                </span>
-                <span className="rounded-full border border-border bg-background/50 px-3 py-1 font-mono text-xs text-primary">
-                  {algo.complexity}
-                </span>
-              </div>
+              <Play className="h-4 w-4 fill-current" />
+              Start Challenge
+            </a>
 
-              <div className="my-6 rounded-xl border border-border bg-background/40 p-4">
-                {algo.viz}
+            <a
+              href="#languages"
+              className="group inline-flex items-center gap-2 rounded-xl glass px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:text-primary sm:px-6 sm:py-3.5"
+            >
+              <Code2 className="h-4 w-4" />
+              Explore Languages
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </a>
+          </div>
+          <dl className="mt-10 grid max-w-md grid-cols-3 gap-3 sm:mt-12 sm:gap-4">
+            {[
+              { v: "5+", l: "Linguagens" },
+              { v: "120+", l: "Desafios" },
+              { v: "30+", l: "Conquistas" },
+            ].map((s) => (
+              <div key={s.l} className="rounded-xl glass px-2 py-3 text-center sm:px-4">
+                <dt className="font-mono text-xl font-bold text-primary sm:text-2xl">
+                  {s.v}
+                </dt>
+                <dd className="mt-1 text-[11px] text-muted-foreground sm:text-xs">{s.l}</dd>
               </div>
+            ))}
+          </dl>
+        </div>
 
-              <h3 className="font-mono text-lg font-bold text-foreground">
-                {algo.name}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {algo.description}
-              </p>
-            </article>
-          ))}
+        {/* Animated code window + QR code */}
+        <div className="relative flex w-full min-w-0 flex-col gap-5 lg:pr-1">
+          <div className="relative min-w-0">
+            <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-neon-cyan/20 via-neon-blue/10 to-neon-purple/20 blur-2xl" />
+            <div className="relative min-w-0 rounded-2xl glass p-1 glow-cyan">
+              <div className="min-w-0 rounded-xl bg-background/80">
+                <div className="flex items-center gap-2 border-b border-border px-4 py-3">
+                  <span className="h-3 w-3 rounded-full bg-destructive/80" />
+                  <span className="h-3 w-3 rounded-full bg-gold/80" />
+                  <span className="h-3 w-3 rounded-full bg-primary/80" />
+                  <span className="ml-2 font-mono text-xs text-muted-foreground">
+                    arena.ts
+                  </span>
+                </div>
+                <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed sm:p-5 sm:text-[13px]">
+                  <code>
+                    {codeLines.map((line, i) => (
+                      <div key={i} className="flex gap-3 sm:gap-4">
+                        <span className="select-none text-muted-foreground/50">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="whitespace-pre text-foreground/90">{line}</span>
+                      </div>
+                    ))}
+                    <div className="mt-2 flex gap-3 sm:gap-4">
+                      <span className="select-none text-muted-foreground/50">
+                        08
+                      </span>
+                      <span className="inline-block h-4 w-2 animate-pulse bg-primary" />
+                    </div>
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          {/* 🆕 QR code window — mesmo estilo de "janela" do code window acima */}
+          <div className="relative min-w-0">
+            <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-neon-purple/15 via-neon-blue/10 to-neon-cyan/15 blur-2xl" />
+            <div className="relative min-w-0 rounded-2xl glass p-1 glow-cyan">
+              <div className="min-w-0 rounded-xl bg-background/80">
+                <div className="flex items-center gap-2 border-b border-border px-4 py-3">
+                  <span className="h-3 w-3 rounded-full bg-destructive/80" />
+                  <span className="h-3 w-3 rounded-full bg-gold/80" />
+                  <span className="h-3 w-3 rounded-full bg-primary/80" />
+                  <span className="ml-2 font-mono text-xs text-muted-foreground">
+                    scan-me.qr
+                  </span>
+                </div>
+
+                <div className="flex flex-col items-center gap-4 p-4 text-center sm:flex-row sm:gap-5 sm:p-5 sm:text-left">
+                  <div className="shrink-0 rounded-xl bg-white p-2.5">
+                    <QRCodeSVG
+                      value={QUIZ_URL}
+                      size={96}
+                      bgColor="#ffffff"
+                      fgColor="#0a0a0f"
+                      level="M"
+                    />
+                  </div>
+
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-primary">
+                      <Smartphone className="h-3.5 w-3.5" />
+                      Play on your phone
+                    </span>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:max-w-[14rem]">
+                      Scan to open the Arena and join the challenge from your own device.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
